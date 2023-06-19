@@ -1,0 +1,6 @@
+<div class='folder-container'>
+  <button (click)='addRootFolder()' aria-label='Add Root Folder' >Add folder to root</button>
+  <div class='folder-structure'>
+      <fsm-nodes *ngFor='let node of nodes' [node]='node' (remove)='removeRootFolder($event)'></fsm-nodes>
+  </div>
+</div>

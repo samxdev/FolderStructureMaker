@@ -1,0 +1,28 @@
+<div class="node-container">
+  <div class="node">
+    <ng-container *ngIf="['file', 'folder'].includes(node.type!)">
+      <ng-container *ngIf="node.name; else inputRef">
+        <img class="icon" [src]="getTypeIcon(node.type)" alt="{{node.type}}-icon">
+        <span class="name">{{node.name}}</span>
+        <i class="fas fa-plus-circle fa-lg" aria-label="confirm" role="button" (click)="addNode()" *ngIf="node?.type === 'folder'"></i>
+        <i class="fas fa-trash fa-lg" aria-label="delete" role="button" (click)="deleteNode()"></i>
+      </ng-container>
+
+      <ng-template #inputRef>
+        <img class="icon" [src]="getTypeIcon(node.type)" alt="{{node.type}}-icon">
+        <input #input [autofocus]="true"/>
+        <i class="fas fa-plus-square fa-xl" aria-label="confirm" role="button" (click)="setNodeName(input.value)"></i>
+        <i class="far fa-window-close fa-xl" aria-label="cancel" role="button" (click)="deleteNode()"></i>
+      </ng-template>
+    </ng-container>
+
+    <ng-container *ngIf="node.type === 'unset'">
+      <button (click)="setNodeType('file')" aria-label="add new file">File</button>
+      <button (click)="setNodeType('folder')" aria-label="add new folder">Folder</button>
+    </ng-container>
+  </div>
+</div>
+
+<div *ngIf="node?.children?.length" class="child">
+  <fsm-nodes *ngFor="let child of node?.children" [node]="child" (remove)="deleteChildNode($event)"></fsm-nodes>
+</div>
